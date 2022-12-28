@@ -1,0 +1,157 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mca_22             |
+| mysql              |
+| performance_schema |
+| sys                |
+| temp               |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> use mca_22;
+Database changed
+mysql> create table book(
+    -> Book_code varchar(5) primary key,
+    -> ISBN_NO varchar(8) not null,
+    -> Book_Name varchar(8) unique,
+    -> publisher varchar(6),
+    -> price float(5,2) check(price>=100),
+    -> Author_name varchar(8),
+    -> DOL date
+    -> );
+Query OK, 0 rows affected, 1 warning (0.91 sec)
+
+mysql> desc book;
++-------------+------------+------+-----+---------+-------+
+| Field       | Type       | Null | Key | Default | Extra |
++-------------+------------+------+-----+---------+-------+
+| Book_code   | varchar(5) | NO   | PRI | NULL    |       |
+| ISBN_NO     | varchar(8) | NO   |     | NULL    |       |
+| Book_Name   | varchar(8) | YES  | UNI | NULL    |       |
+| publisher   | varchar(6) | YES  |     | NULL    |       |
+| price       | float(5,2) | YES  |     | NULL    |       |
+| Author_name | varchar(8) | YES  |     | NULL    |       |
+| DOL         | date       | YES  |     | NULL    |       |
++-------------+------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+mysql> Insert into Book value("A0001","12345678","NEET","TMH",900,"Yashwant","2001-09-22");
+Query OK, 1 row affected (0.07 sec)
+
+mysql> Insert into Book value("A0002","23345678","JEE","PHI",800,"Robert","2002-09-22");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into Book value("A0003","34345678","CAT","TMH",899.99,"Ramaran","2000-05-12");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into Book value("A0004","45345678","Physics","BPB",700,"Robert","2001-06-11");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into Book value("A0005","56345678","Maths","BPB",999.99,"Yashwant","2011-11-10");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> Insert into Book value("A0006","67345678","DSA","TMH",850,"Robert","2012-12-12");
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into Book value("A0007","78345678","JAVA","BPB",950,"Yashwant","2009-09-09");
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from book;
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| Book_code | ISBN_NO  | Book_Name | publisher | price  | Author_name | DOL        |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| A0001     | 12345678 | NEET      | TMH       | 900.00 | Yashwant    | 2001-09-22 |
+| A0002     | 23345678 | JEE       | PHI       | 800.00 | Robert      | 2002-09-22 |
+| A0003     | 34345678 | CAT       | TMH       | 899.99 | Ramaran     | 2000-05-12 |
+| A0004     | 45345678 | Physics   | BPB       | 700.00 | Robert      | 2001-06-11 |
+| A0005     | 56345678 | Maths     | BPB       | 999.99 | Yashwant    | 2011-11-10 |
+| A0006     | 67345678 | DSA       | TMH       | 850.00 | Robert      | 2012-12-12 |
+| A0007     | 78345678 | JAVA      | BPB       | 950.00 | Yashwant    | 2009-09-09 |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> Alter table Book modify Book_Name varchar(10);
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Book_code   | varchar(5)  | NO   | PRI | NULL    |       |
+| ISBN_NO     | varchar(8)  | NO   |     | NULL    |       |
+| Book_Name   | varchar(10) | YES  | UNI | NULL    |       |
+| publisher   | varchar(6)  | YES  |     | NULL    |       |
+| price       | float(5,2)  | YES  |     | NULL    |       |
+| Author_name | varchar(8)  | YES  |     | NULL    |       |
+| DOL         | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select sum(Price) Price from Book where Publisher ="TMH";
++---------+
+| Price   |
++---------+
+| 2649.99 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> Select * from Book where Author_Name in ("Yashwant","Robert");
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| Book_code | ISBN_NO  | Book_Name | publisher | price  | Author_name | DOL        |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| A0001     | 12345678 | NEET      | TMH       | 900.00 | Yashwant    | 2001-09-22 |
+| A0002     | 23345678 | JEE       | PHI       | 800.00 | Robert      | 2002-09-22 |
+| A0004     | 45345678 | Physics   | BPB       | 700.00 | Robert      | 2001-06-11 |
+| A0005     | 56345678 | Maths     | BPB       | 999.99 | Yashwant    | 2011-11-10 |
+| A0006     | 67345678 | DSA       | TMH       | 850.00 | Robert      | 2012-12-12 |
+| A0007     | 78345678 | JAVA      | BPB       | 950.00 | Yashwant    | 2009-09-09 |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> Select * from Book where Author_Name = "Yashwant" or Author_Name ="Robert" ;
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| Book_code | ISBN_NO  | Book_Name | publisher | price  | Author_name | DOL        |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| A0001     | 12345678 | NEET      | TMH       | 900.00 | Yashwant    | 2001-09-22 |
+| A0002     | 23345678 | JEE       | PHI       | 800.00 | Robert      | 2002-09-22 |
+| A0004     | 45345678 | Physics   | BPB       | 700.00 | Robert      | 2001-06-11 |
+| A0005     | 56345678 | Maths     | BPB       | 999.99 | Yashwant    | 2011-11-10 |
+| A0006     | 67345678 | DSA       | TMH       | 850.00 | Robert      | 2012-12-12 |
+| A0007     | 78345678 | JAVA      | BPB       | 950.00 | Yashwant    | 2009-09-09 |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> delete from Book where Publisher ="PHI";
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from book;
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| Book_code | ISBN_NO  | Book_Name | publisher | price  | Author_name | DOL        |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+| A0001     | 12345678 | NEET      | TMH       | 900.00 | Yashwant    | 2001-09-22 |
+| A0003     | 34345678 | CAT       | TMH       | 899.99 | Ramaran     | 2000-05-12 |
+| A0004     | 45345678 | Physics   | BPB       | 700.00 | Robert      | 2001-06-11 |
+| A0005     | 56345678 | Maths     | BPB       | 999.99 | Yashwant    | 2011-11-10 |
+| A0006     | 67345678 | DSA       | TMH       | 850.00 | Robert      | 2012-12-12 |
+| A0007     | 78345678 | JAVA      | BPB       | 950.00 | Yashwant    | 2009-09-09 |
++-----------+----------+-----------+-----------+--------+-------------+------------+
+6 rows in set (0.00 sec)
+
+mysql>
