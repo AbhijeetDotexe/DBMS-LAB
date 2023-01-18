@@ -1,0 +1,117 @@
+mysql> select sqrt(225) From dual;
++-----------+
+| sqrt(225) |
++-----------+
+|        15 |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select power(2,10), power(5,5) from dual;
++-------------+------------+
+| power(2,10) | power(5,5) |
++-------------+------------+
+|        1024 |       3125 |
++-------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select ceil(5.6),ceil(11.4) from dual;
++-----------+------------+
+| ceil(5.6) | ceil(11.4) |
++-----------+------------+
+|         6 |         12 |
++-----------+------------+
+1 row in set (0.01 sec)
+
+mysql> select substr('I am Sleeping',6,7) from dual;
++-----------------------------+
+| substr('I am Sleeping',6,7) |
++-----------------------------+
+| Sleepin                     |
++-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select round(21.4567,2), round(3.9975,3) from dual;
++------------------+-----------------+
+| round(21.4567,2) | round(3.9975,3) |
++------------------+-----------------+
+|            21.46 |           3.998 |
++------------------+-----------------+
+1 row in set (0.01 sec)
+
+mysql> select Length('Riyansh'),Length('This is just for testing purpose') from dual;
++-------------------+--------------------------------------------+
+| Length('Riyansh') | Length('This is just for testing purpose') |
++-------------------+--------------------------------------------+
+|                 7 |                                         32 |
++-------------------+--------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select exp(2),exp(9) from dual;
++------------------+-------------------+
+| exp(2)           | exp(9)            |
++------------------+-------------------+
+| 7.38905609893065 | 8103.083927575384 |
++------------------+-------------------+
+1 row in set (0.00 sec)
+
+mysql> select Mod(29,5),Mod(4,2) from dual;
++-----------+----------+
+| Mod(29,5) | Mod(4,2) |
++-----------+----------+
+|         4 |        0 |
++-----------+----------+
+1 row in set (0.01 sec)
+
+mysql> select Lower('This is just for testing purpose') from dual;
++-------------------------------------------+
+| Lower('This is just for testing purpose') |
++-------------------------------------------+
+| this is just for testing purpose          |
++-------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select Lower('THIS IS JUST FOR TESTING PURPOSE') from dual;
++-------------------------------------------+
+| Lower('THIS IS JUST FOR TESTING PURPOSE') |
++-------------------------------------------+
+| this is just for testing purpose          |
++-------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select Lower('THIS IS JUST FOR TESTING PURPOSE') from dual;
++-------------------------------------------+
+| Lower('THIS IS JUST FOR TESTING PURPOSE') |
++-------------------------------------------+
+| this is just for testing purpose          |
++-------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select instr('This is also for testing purpose','t') from dual;
++-----------------------------------------------+
+| instr('This is also for testing purpose','t') |
++-----------------------------------------------+
+|                                             1 |
++-----------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> select instr('this is also for testing purpose','t') from dual;
++-----------------------------------------------+
+| instr('this is also for testing purpose','t') |
++-----------------------------------------------+
+|                                             1 |
++-----------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> create table sample4(ids float(2) primary key, Dates date);
+ERROR 1046 (3D000): No database selected
+mysql> use Abhijeet;
+Database changed
+mysql> create table sample4(ids float(2) primary key, Dates date);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from sample4;
+Empty set (0.00 sec)
+
+mysql> select initcap('this is also for testing purpose') from dual;
+ERROR 1305 (42000): FUNCTION abhijeet.initcap does not exist
+mysql>

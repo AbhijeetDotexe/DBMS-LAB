@@ -1,0 +1,273 @@
+mysql> create table book(
+    -> Book_Code varchar(5) primary key,
+    -> ISBN_No varchar(8) Not null,
+    -> Book_Name varchar(14) unique,
+    -> publisher varchar(10),
+    -> Price float(5,2) check(price>=100),
+    -> Author_Name varchar(14),
+    -> Date_of_Launch date);
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> desc book;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Book_Code      | varchar(5)  | NO   | PRI | NULL    |       |
+| ISBN_No        | varchar(8)  | NO   |     | NULL    |       |
+| Book_Name      | varchar(14) | YES  | UNI | NULL    |       |
+| publisher      | varchar(10) | YES  |     | NULL    |       |
+| Price          | float(5,2)  | YES  |     | NULL    |       |
+| Author_Name    | varchar(14) | YES  |     | NULL    |       |
+| Date_of_Launch | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> insert into book values('M138','IB0013','INTRO TO C#','TMH',500.00,'Yashwant k','2003/04/25');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into book values('M272','IB1045','Graphics with c','PHI',650.00,'F Campbell','2006/09/20');
+ERROR 1406 (22001): Data too long for column 'Book_Name' at row 1
+mysql> insert into book values('M272','IB1045','GraphicWithC','PHI',650.00,'F Campbell','2006/09/20');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into book values('M106','IB0024','Java Basics','TMH',920.50,'Brie Avant','1999/06/30');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into book values('M210','IB1048','Kotlin Guide','PHI',200.00,'Mason G Tam','2015/06/30');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into book values('M167','IB0061','CPP Coding','Pearson',750.25,'Jean Arrot','1998/07/13');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into book values('M236','IB1031','Java','BPB',800.55,'Brie Avant','2008/03/15');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into book values('M123','IB0032','GraphicsInC','Pearson',750.25,'k Dibiasky','2007/09/27');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into book values('M119','IB0038','SQL Basics','TMH',800.00,'Yule Drask','2003/06/26');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into book values('M289','IB1027','Database Guide','Pearson',475.25,'Yule Drask','2010/05/21');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from book;
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+| Book_Code | ISBN_No | Book_Name      | publisher | Price  | Author_Name | Date_of_Launch |
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+| M106      | IB0024  | Java Basics    | TMH       | 920.50 | Brie Avant  | 1999-06-30     |
+| M119      | IB0038  | SQL Basics     | TMH       | 800.00 | Yule Drask  | 2003-06-26     |
+| M123      | IB0032  | GraphicsInC    | Pearson   | 750.25 | k Dibiasky  | 2007-09-27     |
+| M138      | IB0013  | INTRO TO C#    | TMH       | 500.00 | Yashwant k  | 2003-04-25     |
+| M167      | IB0061  | CPP Coding     | Pearson   | 750.25 | Jean Arrot  | 1998-07-13     |
+| M210      | IB1048  | Kotlin Guide   | PHI       | 200.00 | Mason G Tam | 2015-06-30     |
+| M236      | IB1031  | Java           | BPB       | 800.55 | Brie Avant  | 2008-03-15     |
+| M272      | IB1045  | GraphicWithC   | PHI       | 650.00 | F Campbell  | 2006-09-20     |
+| M289      | IB1027  | Database Guide | Pearson   | 475.25 | Yule Drask  | 2010-05-21     |
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+9 rows in set (0.00 sec)
+
+mysql> Alter table book modify book_Name varchar(16);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Book_Code      | varchar(5)  | NO   | PRI | NULL    |       |
+| ISBN_No        | varchar(8)  | NO   |     | NULL    |       |
+| book_Name      | varchar(16) | YES  | UNI | NULL    |       |
+| publisher      | varchar(10) | YES  |     | NULL    |       |
+| Price          | float(5,2)  | YES  |     | NULL    |       |
+| Author_Name    | varchar(14) | YES  |     | NULL    |       |
+| Date_of_Launch | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select sum(price) from book where publisher='TMH';
++------------+
+| sum(price) |
++------------+
+|    2220.50 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Book where Author_Name in ('Yashwant k','Yule Drask');
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+| Book_Code | ISBN_No | book_Name      | publisher | Price  | Author_Name | Date_of_Launch |
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+| M119      | IB0038  | SQL Basics     | TMH       | 800.00 | Yule Drask  | 2003-06-26     |
+| M138      | IB0013  | INTRO TO C#    | TMH       | 500.00 | Yashwant k  | 2003-04-25     |
+| M289      | IB1027  | Database Guide | Pearson   | 475.25 | Yule Drask  | 2010-05-21     |
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from book where publisher='phi';
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> select * from book;
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+| Book_Code | ISBN_No | book_Name      | publisher | Price  | Author_Name | Date_of_Launch |
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+| M106      | IB0024  | Java Basics    | TMH       | 920.50 | Brie Avant  | 1999-06-30     |
+| M119      | IB0038  | SQL Basics     | TMH       | 800.00 | Yule Drask  | 2003-06-26     |
+| M123      | IB0032  | GraphicsInC    | Pearson   | 750.25 | k Dibiasky  | 2007-09-27     |
+| M138      | IB0013  | INTRO TO C#    | TMH       | 500.00 | Yashwant k  | 2003-04-25     |
+| M167      | IB0061  | CPP Coding     | Pearson   | 750.25 | Jean Arrot  | 1998-07-13     |
+| M236      | IB1031  | Java           | BPB       | 800.55 | Brie Avant  | 2008-03-15     |
+| M289      | IB1027  | Database Guide | Pearson   | 475.25 | Yule Drask  | 2010-05-21     |
++-----------+---------+----------------+-----------+--------+-------------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> update book set price = ((0.05*Price)+Price) where publisher='BPB';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> create table Author(
+    -> Author_ID float(3) primary key,
+    -> Author_Name varchar(14),
+    -> Subject Varchar(8) Not null,
+    -> Contact_Details varchar(14),
+    -> Research_Area varchar(30));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc Author;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Author_ID       | float       | NO   | PRI | NULL    |       |
+| Author_Name     | varchar(14) | YES  |     | NULL    |       |
+| Subject         | varchar(8)  | NO   |     | NULL    |       |
+| Contact_Details | varchar(14) | YES  |     | NULL    |       |
+| Research_Area   | varchar(30) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Author values(992,'Yashwant K','C#','9999999999','Web Mining');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into author values(125,'Juan Orlean','Python','xyz@gmail.com','Web Mining');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into author values(325,'Brie Avant','Java','brave@yahoo','Numerical Application');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into author values(777,'Yule Drask','DBMS','yuld@gmail.com','Data Mining');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into author values(623,'k Dibiasky','C#','kdbs@ggle','Web Mining');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into author values(128,'Jean Arrot','CPP','Jarrt@yahoo','Numerical Application');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from author
+    -> ^C
+mysql> select * from author;
++-----------+-------------+---------+-----------------+-----------------------+
+| Author_ID | Author_Name | Subject | Contact_Details | Research_Area         |
++-----------+-------------+---------+-----------------+-----------------------+
+|       125 | Juan Orlean | Python  | xyz@gmail.com   | Web Mining            |
+|       128 | Jean Arrot  | CPP     | Jarrt@yahoo     | Numerical Application |
+|       325 | Brie Avant  | Java    | brave@yahoo     | Numerical Application |
+|       623 | k Dibiasky  | C#      | kdbs@ggle       | Web Mining            |
+|       777 | Yule Drask  | DBMS    | yuld@gmail.com  | Data Mining           |
+|       992 | Yashwant K  | C#      | 9999999999      | Web Mining            |
++-----------+-------------+---------+-----------------+-----------------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from author where Research_Area='Web Mining';
++-----------+-------------+---------+-----------------+---------------+
+| Author_ID | Author_Name | Subject | Contact_Details | Research_Area |
++-----------+-------------+---------+-----------------+---------------+
+|       125 | Juan Orlean | Python  | xyz@gmail.com   | Web Mining    |
+|       623 | k Dibiasky  | C#      | kdbs@ggle       | Web Mining    |
+|       992 | Yashwant K  | C#      | 9999999999      | Web Mining    |
++-----------+-------------+---------+-----------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> Alter table book
+    -> add column author_id float,
+    -> add foreign key(author_id) references author(author_id);
+Query OK, 7 rows affected (0.05 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> desc book;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Book_Code      | varchar(5)  | NO   | PRI | NULL    |       |
+| ISBN_No        | varchar(8)  | NO   |     | NULL    |       |
+| book_Name      | varchar(16) | YES  | UNI | NULL    |       |
+| publisher      | varchar(10) | YES  |     | NULL    |       |
+| Price          | float(5,2)  | YES  |     | NULL    |       |
+| Author_Name    | varchar(14) | YES  |     | NULL    |       |
+| Date_of_Launch | date        | YES  |     | NULL    |       |
+| author_id      | float       | YES  | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select * from book;
++-----------+---------+----------------+-----------+--------+-------------+----------------+-----------+
+| Book_Code | ISBN_No | book_Name      | publisher | Price  | Author_Name | Date_of_Launch | author_id |
++-----------+---------+----------------+-----------+--------+-------------+----------------+-----------+
+| M106      | IB0024  | Java Basics    | TMH       | 920.50 | Brie Avant  | 1999-06-30     |      NULL |
+| M119      | IB0038  | SQL Basics     | TMH       | 800.00 | Yule Drask  | 2003-06-26     |      NULL |
+| M123      | IB0032  | GraphicsInC    | Pearson   | 750.25 | k Dibiasky  | 2007-09-27     |      NULL |
+| M138      | IB0013  | INTRO TO C#    | TMH       | 500.00 | Yashwant k  | 2003-04-25     |      NULL |
+| M167      | IB0061  | CPP Coding     | Pearson   | 750.25 | Jean Arrot  | 1998-07-13     |      NULL |
+| M236      | IB1031  | Java           | BPB       | 840.58 | Brie Avant  | 2008-03-15     |      NULL |
+| M289      | IB1027  | Database Guide | Pearson   | 475.25 | Yule Drask  | 2010-05-21     |      NULL |
++-----------+---------+----------------+-----------+--------+-------------+----------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> update book
+    -> inner join author on(book.author_name=author.author_name)
+    -> set book.author_id=author.author_id;
+Query OK, 7 rows affected (0.01 sec)
+Rows matched: 7  Changed: 7  Warnings: 0
+
+mysql> select * from book;
++-----------+---------+----------------+-----------+--------+-------------+----------------+-----------+
+| Book_Code | ISBN_No | book_Name      | publisher | Price  | Author_Name | Date_of_Launch | author_id |
++-----------+---------+----------------+-----------+--------+-------------+----------------+-----------+
+| M106      | IB0024  | Java Basics    | TMH       | 920.50 | Brie Avant  | 1999-06-30     |       325 |
+| M119      | IB0038  | SQL Basics     | TMH       | 800.00 | Yule Drask  | 2003-06-26     |       777 |
+| M123      | IB0032  | GraphicsInC    | Pearson   | 750.25 | k Dibiasky  | 2007-09-27     |       623 |
+| M138      | IB0013  | INTRO TO C#    | TMH       | 500.00 | Yashwant k  | 2003-04-25     |       992 |
+| M167      | IB0061  | CPP Coding     | Pearson   | 750.25 | Jean Arrot  | 1998-07-13     |       128 |
+| M236      | IB1031  | Java           | BPB       | 840.58 | Brie Avant  | 2008-03-15     |       325 |
+| M289      | IB1027  | Database Guide | Pearson   | 475.25 | Yule Drask  | 2010-05-21     |       777 |
++-----------+---------+----------------+-----------+--------+-------------+----------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from book
+    -> where book_Name like 'C%'
+    -> or Book_Name like 'G%'
+    -> or Book_Name like 'I%';
++-----------+---------+-------------+-----------+--------+-------------+----------------+-----------+
+| Book_Code | ISBN_No | book_Name   | publisher | Price  | Author_Name | Date_of_Launch | author_id |
++-----------+---------+-------------+-----------+--------+-------------+----------------+-----------+
+| M167      | IB0061  | CPP Coding  | Pearson   | 750.25 | Jean Arrot  | 1998-07-13     |       128 |
+| M123      | IB0032  | GraphicsInC | Pearson   | 750.25 | k Dibiasky  | 2007-09-27     |       623 |
+| M138      | IB0013  | INTRO TO C# | TMH       | 500.00 | Yashwant k  | 2003-04-25     |       992 |
++-----------+---------+-------------+-----------+--------+-------------+----------------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> create view Pearson as
+    -> select book_code,Book_Name,Price from book
+    -> where publisher='pearson';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from pearson;
++-----------+----------------+--------+
+| book_code | Book_Name      | Price  |
++-----------+----------------+--------+
+| M123      | GraphicsInC    | 750.25 |
+| M167      | CPP Coding     | 750.25 |
+| M289      | Database Guide | 475.25 |
++-----------+----------------+--------+
+3 rows in set (0.00 sec)
+
+mysql>

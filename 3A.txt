@@ -1,0 +1,239 @@
+mysql> create table employee(
+    -> Eid float(3) primary key,
+    -> Ename varchar(20),
+    -> Address varchar(20),
+    -> Date_Of_Joining date,
+    -> Department varchar(20));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc employee;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Eid             | float       | NO   | PRI | NULL    |       |
+| Ename           | varchar(20) | YES  |     | NULL    |       |
+| Address         | varchar(20) | YES  |     | NULL    |       |
+| Date_Of_Joining | date        | YES  |     | NULL    |       |
+| Department      | varchar(20) | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> create table projects(
+    -> Pid float primary key,
+    -> Pname varchar(20),
+    -> StartDate date,
+    -> Termination date);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc projects;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Pid         | float       | NO   | PRI | NULL    |       |
+| Pname       | varchar(20) | YES  |     | NULL    |       |
+| StartDate   | date        | YES  |     | NULL    |       |
+| Termination | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> create table AssignedTo(
+    -> Eid float references employee(eid),
+    -> Pid float references projects(pid),
+    -> primary Key(Eid,Pid));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into employee values(101,'Rohan','Delhi','2021/2/15','D01');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> insert into employee values(102,'Rajesh','Mumbai','2021/11/1','D02');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into employee values(103,'Ishaan','Kolkata','2021/3/20','D03');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee values(104,'Rahul','Delhi','2021/2/15','D01');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee values(105,'Nishant','Haryana','2021/5/18','D03');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee values(106,'Amit','Delhi','2022/8/15','D03');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into projects values(10,'Banking','2021/7/23','2022/9/23');
+Query OK, 1 row affected, 2 warnings (0.01 sec)
+
+mysql> insert into projects values(11,'University','2021/2/13','2021/10/13');
+Query OK, 1 row affected, 2 warnings (0.01 sec)
+
+mysql> insert into projects values(12,'ShareMarket','2021/1/30','2022/7/30');
+Query OK, 1 row affected, 2 warnings (0.00 sec)
+
+mysql> insert into AssignedTO values(101,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into AssignedTO values(103,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into AssignedTO values(105,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into AssignedTO values(102,11);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into AssignedTO values(103,11);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into AssignedTO values(104,11);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into AssignedTO values(105,12);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into AssignedTO values(103,12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++-----+---------+---------+-----------------+------------+
+| Eid | Ename   | Address | Date_Of_Joining | Department |
++-----+---------+---------+-----------------+------------+
+| 101 | Rohan   | Delhi   | 2021-02-15      | D01        |
+| 102 | Rajesh  | Mumbai  | 2021-11-01      | D02        |
+| 103 | Ishaan  | Kolkata | 2021-03-20      | D03        |
+| 104 | Rahul   | Delhi   | 2021-02-15      | D01        |
+| 105 | Nishant | Haryana | 2021-05-18      | D03        |
+| 106 | Amit    | Delhi   | 2022-08-15      | D03        |
++-----+---------+---------+-----------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from projects;
++-----+-------------+------------+-------------+
+| Pid | Pname       | StartDate  | Termination |
++-----+-------------+------------+-------------+
+|  10 | Banking     | 2021-07-23 | 2022-09-23  |
+|  11 | University  | 2021-02-13 | 2021-10-13  |
+|  12 | ShareMarket | 2021-01-30 | 2022-07-30  |
++-----+-------------+------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from AssignedTO;
++-----+-----+
+| Eid | Pid |
++-----+-----+
+| 101 |  10 |
+| 102 |  11 |
+| 103 |  10 |
+| 103 |  11 |
+| 103 |  12 |
+| 104 |  11 |
+| 105 |  10 |
+| 105 |  12 |
++-----+-----+
+8 rows in set (0.00 sec)
+
+mysql> select Ename from employee
+    -> join AssignedTO
+    -> on AssignedTo.Eid=Employee.Eid
+    -> join projects
+    -> on projects.pid=AssignedTo.pid
+    -> where Pname='Banking';
++---------+
+| Ename   |
++---------+
+| Rohan   |
+| Ishaan  |
+| Nishant |
++---------+
+3 rows in set (0.01 sec)
+
+mysql> select distinct Pname
+    -> from projects
+    -> join AssignedTO
+    -> on AssignedTO.pid=Projects.Pid
+    -> join employee
+    -> on employee.eid=AssignedTo.eid
+    -> where department='D01' or department='D02';
++------------+
+| Pname      |
++------------+
+| Banking    |
+| University |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> select Ename
+    -> from employee
+    -> join AssignedTO
+    -> on AssignedTo.eid=employee.eid
+    -> join projects
+    -> on projects.pid=assignedTo.pid
+    -> where(Pname='ShareMarket' or Pname='University') and Address='Delhi';
++-------+
+| Ename |
++-------+
+| Rahul |
++-------+
+1 row in set (0.00 sec)
+
+mysql> Select ename from employee
+    -> join AssignedTO
+    -> on AssignedTO.eid=employee.eid
+    -> join projects
+    -> on projects.pid=AssignedTo.pid
+    -> where pname='University';
++--------+
+| ename  |
++--------+
+| Rajesh |
+| Ishaan |
+| Rahul  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select Ename from employee
+    -> where Eid in(Select Eid
+    -> from AssignedTO group by eid
+    -> having count(Pid)=(Select count(pid) from projects));
++--------+
+| Ename  |
++--------+
+| Ishaan |
++--------+
+1 row in set (0.02 sec)
+
+mysql> select Eid,Ename
+    -> from employee
+    -> where eid not in(Select eid from AssignedTo);
++-----+-------+
+| Eid | Ename |
++-----+-------+
+| 106 | Amit  |
++-----+-------+
+1 row in set (0.01 sec)
+
+mysql> select * from employee
+    -> where Date_Of_Joining>(Select startDate from projects where pname='Banking');
++-----+--------+---------+-----------------+------------+
+| Eid | Ename  | Address | Date_Of_Joining | Department |
++-----+--------+---------+-----------------+------------+
+| 102 | Rajesh | Mumbai  | 2021-11-01      | D02        |
+| 106 | Amit   | Delhi   | 2022-08-15      | D03        |
++-----+--------+---------+-----------------+------------+
+2 rows in set (0.01 sec)
+
+mysql> select startDate,Termination from Projects
+    -> join AssignedTo
+    -> on AssignedTo.pid=Projects.pid
+    -> join employee
+    -> on AssignedTo.eid=Employee.eid
+    -> where Ename='Ishaan';
++------------+-------------+
+| startDate  | Termination |
++------------+-------------+
+| 2021-07-23 | 2022-09-23  |
+| 2021-02-13 | 2021-10-13  |
+| 2021-01-30 | 2022-07-30  |
++------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql>

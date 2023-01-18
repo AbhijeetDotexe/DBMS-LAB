@@ -1,0 +1,213 @@
+mysql> create table student(
+    -> Roll_No float(2) primary key,
+    -> Sname varchar(20) not null,
+    -> Address varchar(20),
+    -> city varchar(30),
+    -> Marks_Sub1 float(5,2) check(Marks_Sub1>=0 and Marks_Sub1<=100),
+    -> Marks_Sub2 float(5,2) check(Marks_Sub2>=0 and Marks_Sub2<=100),
+    -> Marks_Sub3 float(5,2) check(Marks_Sub3>=0 and Marks_Sub3<=100),
+    -> Total float(5,2) check(total>=0 and total<=300));
+Query OK, 0 rows affected, 4 warnings (0.02 sec)
+
+mysql> desc student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Roll_No    | float       | NO   | PRI | NULL    |       |
+| Sname      | varchar(20) | NO   |     | NULL    |       |
+| Address    | varchar(20) | YES  |     | NULL    |       |
+| city       | varchar(30) | YES  |     | NULL    |       |
+| Marks_Sub1 | float(5,2)  | YES  |     | NULL    |       |
+| Marks_Sub2 | float(5,2)  | YES  |     | NULL    |       |
+| Marks_Sub3 | float(5,2)  | YES  |     | NULL    |       |
+| Total      | float(5,2)  | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(12,'Sachin','Punjabi Bagh','New delhi',80,70,85);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(30,'Karan','INA','New delhi',97,98,99);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(18,'Abhijeet','Sanwal Nagar','New delhi',80,80,80);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(21,'Apoorv','Bhadurgarh','Haryana',70,65,35);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(17,'Romil','Gurgaon','Haryana',95,96,97);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(23,'Aditya','Ramesh Nagar','New delhi',95,96,98);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(40,'kiran','Bandra','Mumbai',70,75,80);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(1,'Suman','Ghaziabad','UP',65,70,35);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(8,'Ankit','Uttam Nagar','New delhi',60,70,65);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into student(Roll_No,Sname,Address,City,Marks_Sub1,Marks_Sub2,Marks_Sub3)
+    -> values(9,'Riyansh','Sanwal Nagar','New delhi',95,96,97);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++---------+----------+--------------+-----------+------------+------------+------------+-------+
+| Roll_No | Sname    | Address      | city      | Marks_Sub1 | Marks_Sub2 | Marks_Sub3 | Total |
++---------+----------+--------------+-----------+------------+------------+------------+-------+
+|       1 | Suman    | Ghaziabad    | UP        |      65.00 |      70.00 |      35.00 |  NULL |
+|       8 | Ankit    | Uttam Nagar  | New delhi |      60.00 |      70.00 |      65.00 |  NULL |
+|       9 | Riyansh  | Sanwal Nagar | New delhi |      95.00 |      96.00 |      97.00 |  NULL |
+|      12 | Sachin   | Punjabi Bagh | New delhi |      80.00 |      70.00 |      85.00 |  NULL |
+|      17 | Romil    | Gurgaon      | Haryana   |      95.00 |      96.00 |      97.00 |  NULL |
+|      18 | Abhijeet | Sanwal Nagar | New delhi |      80.00 |      80.00 |      80.00 |  NULL |
+|      21 | Apoorv   | Bhadurgarh   | Haryana   |      70.00 |      65.00 |      35.00 |  NULL |
+|      23 | Aditya   | Ramesh Nagar | New delhi |      95.00 |      96.00 |      98.00 |  NULL |
+|      30 | Karan    | INA          | New delhi |      97.00 |      98.00 |      99.00 |  NULL |
+|      40 | kiran    | Bandra       | Mumbai    |      70.00 |      75.00 |      80.00 |  NULL |
++---------+----------+--------------+-----------+------------+------------+------------+-------+
+10 rows in set (0.00 sec)
+
+mysql> update student
+    -> set total = (Marks_Sub1+Marks_Sub2+Marks_Sub3);
+Query OK, 10 rows affected (0.01 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+mysql> select * from student;
++---------+----------+--------------+-----------+------------+------------+------------+--------+
+| Roll_No | Sname    | Address      | city      | Marks_Sub1 | Marks_Sub2 | Marks_Sub3 | Total  |
++---------+----------+--------------+-----------+------------+------------+------------+--------+
+|       1 | Suman    | Ghaziabad    | UP        |      65.00 |      70.00 |      35.00 | 170.00 |
+|       8 | Ankit    | Uttam Nagar  | New delhi |      60.00 |      70.00 |      65.00 | 195.00 |
+|       9 | Riyansh  | Sanwal Nagar | New delhi |      95.00 |      96.00 |      97.00 | 288.00 |
+|      12 | Sachin   | Punjabi Bagh | New delhi |      80.00 |      70.00 |      85.00 | 235.00 |
+|      17 | Romil    | Gurgaon      | Haryana   |      95.00 |      96.00 |      97.00 | 288.00 |
+|      18 | Abhijeet | Sanwal Nagar | New delhi |      80.00 |      80.00 |      80.00 | 240.00 |
+|      21 | Apoorv   | Bhadurgarh   | Haryana   |      70.00 |      65.00 |      35.00 | 170.00 |
+|      23 | Aditya   | Ramesh Nagar | New delhi |      95.00 |      96.00 |      98.00 | 289.00 |
+|      30 | Karan    | INA          | New delhi |      97.00 |      98.00 |      99.00 | 294.00 |
+|      40 | kiran    | Bandra       | Mumbai    |      70.00 |      75.00 |      80.00 | 225.00 |
++---------+----------+--------------+-----------+------------+------------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select Sname from student where total=(select Max(total) from student);
++-------+
+| Sname |
++-------+
+| Karan |
++-------+
+1 row in set (0.01 sec)
+
+mysql> select * from student where total>(select total from student where sname='kiran');
++---------+----------+--------------+-----------+------------+------------+------------+--------+
+| Roll_No | Sname    | Address      | city      | Marks_Sub1 | Marks_Sub2 | Marks_Sub3 | Total  |
++---------+----------+--------------+-----------+------------+------------+------------+--------+
+|       9 | Riyansh  | Sanwal Nagar | New delhi |      95.00 |      96.00 |      97.00 | 288.00 |
+|      12 | Sachin   | Punjabi Bagh | New delhi |      80.00 |      70.00 |      85.00 | 235.00 |
+|      17 | Romil    | Gurgaon      | Haryana   |      95.00 |      96.00 |      97.00 | 288.00 |
+|      18 | Abhijeet | Sanwal Nagar | New delhi |      80.00 |      80.00 |      80.00 | 240.00 |
+|      23 | Aditya   | Ramesh Nagar | New delhi |      95.00 |      96.00 |      98.00 | 289.00 |
+|      30 | Karan    | INA          | New delhi |      97.00 |      98.00 |      99.00 | 294.00 |
++---------+----------+--------------+-----------+------------+------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select Sname,(Total/3) as Percentage from student;
++----------+------------+
+| Sname    | Percentage |
++----------+------------+
+| Suman    |  56.666667 |
+| Ankit    |  65.000000 |
+| Riyansh  |  96.000000 |
+| Sachin   |  78.333333 |
+| Romil    |  96.000000 |
+| Abhijeet |  80.000000 |
+| Apoorv   |  56.666667 |
+| Aditya   |  96.333333 |
+| Karan    |  98.000000 |
+| kiran    |  75.000000 |
++----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select sname from student
+    -> where marks_sub1=(select max(Marks_Sub1) from student where (Marks_Sub2>50 and Marks_Sub3>50));
++-------+
+| sname |
++-------+
+| Karan |
++-------+
+1 row in set (0.00 sec)
+
+mysql> update student set total = (total+5) where (Marks_Sub1<40)
+    -> or (Marks_sub2<40)
+    -> or (Marks_sub3<40);
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> delete from student
+    -> where ((Marks_sub1) and (marks_Sub2<40) and (Marks_Sub3<40));
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select city,Avg(Total) as Average from student where city<>'Gurgaon' group by city;
++-----------+------------+
+| city      | Average    |
++-----------+------------+
+| UP        | 175.000000 |
+| New delhi | 256.833333 |
+| Haryana   | 231.500000 |
+| Mumbai    | 225.000000 |
++-----------+------------+
+4 rows in set (0.01 sec)
+
+mysql> select Sname from student
+    -> where((Roll_No<30) and (Total>(select min(Total) from student where ROll_NO>=30)));
++----------+
+| Sname    |
++----------+
+| Riyansh  |
+| Sachin   |
+| Romil    |
+| Abhijeet |
+| Aditya   |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> create INDEX studentIndex
+    -> on Student(Roll_NO,Sname);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create view PercentageView as
+    -> select Roll_No,Upper(Sname) as Sname,Marks_Sub1,Marks_SUb2,Marks_Sub3,(Total/3) as Percentage from student;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from PercentageView;
++---------+----------+------------+------------+------------+------------+
+| Roll_No | Sname    | Marks_Sub1 | Marks_SUb2 | Marks_Sub3 | Percentage |
++---------+----------+------------+------------+------------+------------+
+|       1 | SUMAN    |      65.00 |      70.00 |      35.00 |  58.333333 |
+|       8 | ANKIT    |      60.00 |      70.00 |      65.00 |  65.000000 |
+|       9 | RIYANSH  |      95.00 |      96.00 |      97.00 |  96.000000 |
+|      12 | SACHIN   |      80.00 |      70.00 |      85.00 |  78.333333 |
+|      17 | ROMIL    |      95.00 |      96.00 |      97.00 |  96.000000 |
+|      18 | ABHIJEET |      80.00 |      80.00 |      80.00 |  80.000000 |
+|      21 | APOORV   |      70.00 |      65.00 |      35.00 |  58.333333 |
+|      23 | ADITYA   |      95.00 |      96.00 |      98.00 |  96.333333 |
+|      30 | KARAN    |      97.00 |      98.00 |      99.00 |  98.000000 |
+|      40 | KIRAN    |      70.00 |      75.00 |      80.00 |  75.000000 |
++---------+----------+------------+------------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql>

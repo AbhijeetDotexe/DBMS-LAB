@@ -1,0 +1,234 @@
+mysql> create table students(
+    -> Roll_No float(2) primary key,
+    -> Sname varchar(20),
+    -> city varchar(20),
+    -> Age float(2) not null,
+    -> Gender varchar(1));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table course(
+    -> cid float(3) primary key,
+    -> Cname varchar(20),
+    -> Semester float(1),
+    -> credits float(3),
+    -> fee float(7));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create Table Enrollment(
+    -> Roll_No float references students(Roll_No),
+    -> Cid float references Course(Cid),
+    -> primary key(Roll_No,Cid),
+    -> DateOfReg date);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Roll_No    | float       | NO   | PRI | NULL    |       |
+| Sname      | varchar(20) | NO   |     | NULL    |       |
+| Address    | varchar(20) | YES  |     | NULL    |       |
+| city       | varchar(30) | YES  |     | NULL    |       |
+| Marks_Sub1 | float(5,2)  | YES  |     | NULL    |       |
+| Marks_Sub2 | float(5,2)  | YES  |     | NULL    |       |
+| Marks_Sub3 | float(5,2)  | YES  |     | NULL    |       |
+| Total      | float(5,2)  | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> insert into students values(12,'Ankit','Delhi',22,'M');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into students values(13,'Anita','Delhi',20,'F');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into students values(10,'Rohan','Mumabai',21,'M');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into students values(7,'Neha','UP',22,'F');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into students values(17,'Riya','Bangalore',21,'F');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into course values(101,'MCA',4,120,100000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into course values(102,'MBA',4,120,200000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into course values(103,'BTECH',8,240,400000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into course values(104,'BAJMC',6,150,200000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into enrollment values(12,101,'2021/11/20');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into enrollment values(13,102,'2021/12/20');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into enrollment values(10,102,'2021/12/20');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into enrollment values(7,103,'2021/11/15');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into enrollment values(17,103,'2021/11/15');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into enrollment values(12,103,'2021/11/15');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into enrollment values(10,104,'2021/10/20');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into enrollment values(17,102,'2021/12/20');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into enrollment values(17,101,'2021/11/20');
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from students;
++---------+-------+-----------+-----+--------+
+| Roll_No | Sname | city      | Age | Gender |
++---------+-------+-----------+-----+--------+
+|       7 | Neha  | UP        |  22 | F      |
+|      10 | Rohan | Mumabai   |  21 | M      |
+|      12 | Ankit | Delhi     |  22 | M      |
+|      13 | Anita | Delhi     |  20 | F      |
+|      17 | Riya  | Bangalore |  21 | F      |
++---------+-------+-----------+-----+--------+
+5 rows in set (0.01 sec)
+
+mysql> select * from course;
++-----+-------+----------+---------+--------+
+| cid | Cname | Semester | credits | fee    |
++-----+-------+----------+---------+--------+
+| 101 | MCA   |        4 |     120 | 100000 |
+| 102 | MBA   |        4 |     120 | 200000 |
+| 103 | BTECH |        8 |     240 | 400000 |
+| 104 | BAJMC |        6 |     150 | 200000 |
++-----+-------+----------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from enrollment;
++---------+-----+------------+
+| Roll_No | Cid | DateOfReg  |
++---------+-----+------------+
+|       7 | 103 | 2021-11-15 |
+|      10 | 102 | 2021-12-20 |
+|      10 | 104 | 2021-10-20 |
+|      12 | 101 | 2021-11-20 |
+|      12 | 103 | 2021-11-15 |
+|      13 | 102 | 2021-12-20 |
+|      17 | 101 | 2021-11-20 |
+|      17 | 102 | 2021-12-20 |
+|      17 | 103 | 2021-11-15 |
++---------+-----+------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from students
+    -> join enrollment
+    -> on enrollment.ROll_No=Students.Roll_No
+    -> join course
+    -> on course.cid=Enrollment.cid
+    -> where Cname='MCA';
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+| Roll_No | Sname | city      | Age | Gender | Roll_No | Cid | DateOfReg  | cid | Cname | Semester | credits | fee    |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+|      12 | Ankit | Delhi     |  22 | M      |      12 | 101 | 2021-11-20 | 101 | MCA   |        4 |     120 | 100000 |
+|      17 | Riya  | Bangalore |  21 | F      |      17 | 101 | 2021-11-20 | 101 | MCA   |        4 |     120 | 100000 |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from students
+    -> join enrollment
+    -> on Enrollment.ROll_No=students.ROll_NO
+    -> join course
+    -> on course.cid=Enrollment.cid
+    -> where cname='MBA';
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+| Roll_No | Sname | city      | Age | Gender | Roll_No | Cid | DateOfReg  | cid | Cname | Semester | credits | fee    |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+|      10 | Rohan | Mumabai   |  21 | M      |      10 | 102 | 2021-12-20 | 102 | MBA   |        4 |     120 | 200000 |
+|      13 | Anita | Delhi     |  20 | F      |      13 | 102 | 2021-12-20 | 102 | MBA   |        4 |     120 | 200000 |
+|      17 | Riya  | Bangalore |  21 | F      |      17 | 102 | 2021-12-20 | 102 | MBA   |        4 |     120 | 200000 |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from students
+    -> join enrollment
+    -> on enrollment.Roll_No=Students.Roll_No
+    -> join course
+    -> on course.cid=enrollment.cid
+    -> where cname in
+    -> (Select cname from course
+    -> join enrollment on enrollment.cid=course.cid
+    -> join students on students.roll_No=enrollment.Roll_No
+    -> where Sname='Anita');
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+| Roll_No | Sname | city      | Age | Gender | Roll_No | Cid | DateOfReg  | cid | Cname | Semester | credits | fee    |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+|      10 | Rohan | Mumabai   |  21 | M      |      10 | 102 | 2021-12-20 | 102 | MBA   |        4 |     120 | 200000 |
+|      13 | Anita | Delhi     |  20 | F      |      13 | 102 | 2021-12-20 | 102 | MBA   |        4 |     120 | 200000 |
+|      17 | Riya  | Bangalore |  21 | F      |      17 | 102 | 2021-12-20 | 102 | MBA   |        4 |     120 | 200000 |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select sname,dateofreg from students
+    -> join enrollment on enrollment.Roll_No=Students.Roll_No;
++-------+------------+
+| sname | dateofreg  |
++-------+------------+
+| Neha  | 2021-11-15 |
+| Rohan | 2021-12-20 |
+| Rohan | 2021-10-20 |
+| Ankit | 2021-11-20 |
+| Ankit | 2021-11-15 |
+| Anita | 2021-12-20 |
+| Riya  | 2021-11-20 |
+| Riya  | 2021-12-20 |
+| Riya  | 2021-11-15 |
++-------+------------+
+9 rows in set (0.00 sec)
+
+mysql> select Cname from course
+    -> join enrollment on enrollment.cid=course.cid
+    -> join students on students.Roll_No=Enrollment.Roll_No
+    -> where sname='Ankit';
++-------+
+| Cname |
++-------+
+| MCA   |
+| BTECH |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select sname from students
+    -> join enrollment
+    -> on enrollment.Roll_No=Students.ROll_no
+    -> join course on course.cid=Enrollment.cid
+    -> where cname='MCA' and gender='M';
++-------+
+| sname |
++-------+
+| Ankit |
++-------+
+1 row in set (0.00 sec)
+
+mysql> (select * from students
+    -> join enrollment
+    -> on enrollment.roll_No=students.Roll_no
+    -> join course
+    -> on course.cid=enrollment.cid
+    -> where cname='MCA' and city<>'Delhi');
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+| Roll_No | Sname | city      | Age | Gender | Roll_No | Cid | DateOfReg  | cid | Cname | Semester | credits | fee    |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+|      17 | Riya  | Bangalore |  21 | F      |      17 | 101 | 2021-11-20 | 101 | MCA   |        4 |     120 | 100000 |
++---------+-------+-----------+-----+--------+---------+-----+------------+-----+-------+----------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql>
